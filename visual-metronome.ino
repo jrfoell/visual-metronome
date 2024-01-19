@@ -98,8 +98,8 @@ void handleNoteOn(byte channel, byte pitch, byte velocity)
     // Try to keep your callbacks short (no delays ect)
     // otherwise it would slow down the loop() and have a bad impact
     // on real-time performance.
-    Serial.print("Note on: ");
-    Serial.println(pitch);
+    // Serial.print("Note on: ");
+    // Serial.println(pitch);
     
     switch(pitch) {
       case NOTE_G5:
@@ -136,8 +136,8 @@ void handleNoteOff(byte channel, byte pitch, byte velocity)
 {
     // Do something when the note is released.
     // Note that NoteOn messages with 0 velocity are interpreted as NoteOffs.
-    Serial.print("Note off: ");
-    Serial.println(pitch);
+    // Serial.print("Note off: ");
+    // Serial.println(pitch);
 
     switch(pitch) {
       case NOTE_G5:
@@ -195,10 +195,10 @@ void clearBeat() {
 void setup()
 {
     // Serial setup
-    Serial.begin(115200);
+    // Serial.begin(115200);
     // Wait for the serial interface to be ready.
-    while (!Serial) ;
-    Serial.println("MIDI visual metronome");
+    // while (!Serial) ;
+    // Serial.println("MIDI visual metronome");
 
     // LED Setup
     matrix->begin();
