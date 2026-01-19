@@ -6,12 +6,23 @@
 /* BEGIN MIDI Settings */
 
 // MIDI Notes
+#define NOTE_F4 77
+#define NOTE_G4 79
+#define NOTE_A4 81
+#define NOTE_B4 83
+#define NOTE_C5 84
+#define NOTE_D5 86
+#define NOTE_E5 88
+#define NOTE_F5 89
+
 #define NOTE_G5 91
 #define NOTE_A5 93
 #define NOTE_B5 95
 #define NOTE_C6 96
 #define NOTE_D6 98
 #define NOTE_E6 100
+#define NOTE_F6 101
+#define NOTE_G6 103
 
 // Override the default MIDI baudrate for FeatherWing
 struct CustomBaudRateSettings : public MIDI_NAMESPACE::DefaultSerialSettings {
@@ -81,7 +92,13 @@ static const uint8_t PROGMEM
       // 3: Four
       { 0x00, 0x0e, 0x78, 0x36, 0x66, 0x7f, 0x60, 0x0f, },
       // 4: Five
-      { 0x00, 0x7e, 0x06, 0x3e, 0x60, 0x06, 0x66, 0x3c, },
+      { 0x00, 0x7e, 0x06, 0x7c, 0x60, 0x06, 0x66, 0x3c, },
+      // 5: Six
+      { 0x00, 0x1c, 0x0c, 0x60, 0x3e, 0x66, 0x66, 0x3c, },
+      // 6: Seven
+      { 0x00, 0x7e, 0x66, 0x06, 0x30, 0x18, 0x18, 0x18, },
+      // 6: Eight
+      { 0x00, 0x3c, 0x66, 0x66, 0x3c, 0x66, 0x66, 0x3c, },
 };
 
 /* END NeoPixel Settings */
@@ -102,29 +119,71 @@ void handleNoteOn(byte channel, byte pitch, byte velocity)
     // Serial.println(pitch);
     
     switch(pitch) {
+      // RED BG
+      case NOTE_F4:
+        printBeat(0, true, true);
+        break;
+
+      case NOTE_G4:
+        printBeat(1, true, true);
+        break;
+
+      case NOTE_A4:
+        printBeat(2, true, true);
+        break;
+
+      case NOTE_B4:
+        printBeat(3, true, true);
+       break;
+
+      case NOTE_C5:
+        printBeat(4, true, true);
+        break;
+
+      case NOTE_D5:
+        printBeat(5, true, true);
+        break;
+
+      case NOTE_E5:
+        printBeat(6, true, true);
+        break;
+
+      case NOTE_F5:
+        printBeat(7, true, true);
+        break;
+
+      // BLUE BG
       case NOTE_G5:
-        printBeat(0, true);
+        printBeat(0, true, false);
         break;
 
       case NOTE_A5:
-        printBeat(1, true);
+        printBeat(1, true, false);
         break;
 
       case NOTE_B5:
-        printBeat(2, true);
+        printBeat(2, true, false);
         break;
 
       case NOTE_C6:
-        printBeat(3, true);
+        printBeat(3, true, false);
        break;
 
       case NOTE_D6:
-        printBeat(4, true);
-        break;   
+        printBeat(4, true, false);
+        break;
 
       case NOTE_E6:
-        printBeat(5, true);
-        break;    
+        printBeat(5, true, false);
+        break;
+
+      case NOTE_F6:
+        printBeat(6, true, false);
+        break;
+
+      case NOTE_G6:
+        printBeat(7, true, false);
+        break;
 
       default:
         clearBeat();
@@ -140,29 +199,69 @@ void handleNoteOff(byte channel, byte pitch, byte velocity)
     // Serial.println(pitch);
 
     switch(pitch) {
+      case NOTE_F4:
+        printBeat(0, false, false);
+        break;
+
+      case NOTE_G4:
+        printBeat(1, false, false);
+        break;
+
+      case NOTE_A4:
+        printBeat(2, false, false);
+        break;
+
+      case NOTE_B4:
+        printBeat(3, false, false);
+       break;
+
+      case NOTE_C5:
+        printBeat(4, false, false);
+        break;
+
+      case NOTE_D5:
+        printBeat(5, false, false);
+        break;
+
+      case NOTE_E5:
+        printBeat(6, false, false);
+        break;
+
+      case NOTE_F5:
+        printBeat(7, false, false);
+        break;
+
       case NOTE_G5:
-        printBeat(0, false);
+        printBeat(0, false, false);
         break;
 
       case NOTE_A5:
-        printBeat(1, false);
+        printBeat(1, false, false);
         break;
 
       case NOTE_B5:
-        printBeat(2, false);
+        printBeat(2, false, false);
         break;
 
       case NOTE_C6:
-        printBeat(3, false);
+        printBeat(3, false, false);
         break;
 
       case NOTE_D6:
-        printBeat(4, false);
+        printBeat(4, false, false);
         break;
 
       case NOTE_E6:
-        printBeat(5, false);
-        break;  
+        printBeat(5, false, false);
+        break;
+
+      case NOTE_F6:
+        printBeat(6, false, false);
+        break;
+
+      case NOTE_G6:
+        printBeat(7, false, false);
+        break;
 
       default:
         clearBeat();
@@ -170,10 +269,14 @@ void handleNoteOff(byte channel, byte pitch, byte velocity)
     }
 }
 
-void printBeat(int beat, bool on) {
+void printBeat(int beat, bool on, bool red) {
   if ( on ) {
     matrix->clear();
-    matrix->fillScreen(LED_BLUE_MEDIUM);
+    if ( red ) {
+      matrix->fillScreen(LED_RED_MEDIUM);
+    } else {
+      matrix->fillScreen(LED_BLUE_MEDIUM);
+    }
     matrix->drawBitmap(0, 0,  RGB_bmp[beat], mw, mh, LED_ORANGE_HIGH);
     matrix->show();
   } else {
