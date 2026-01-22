@@ -5,7 +5,10 @@
 
 /* BEGIN MIDI Settings */
 
-// MIDI Notes
+// MIDI Notes.
+#define NOTE_E4 76 // clear LEDs.
+
+// Blue background.
 #define NOTE_F4 77
 #define NOTE_G4 79
 #define NOTE_A4 81
@@ -15,6 +18,7 @@
 #define NOTE_E5 88
 #define NOTE_F5 89
 
+// Red background.
 #define NOTE_G5 91
 #define NOTE_A5 93
 #define NOTE_B5 95
@@ -119,6 +123,11 @@ void handleNoteOn(byte channel, byte pitch, byte velocity)
     // Serial.println(pitch);
     
     switch(pitch) {
+
+      case NOTE_E4:
+        clearBeat();
+        break;
+
       // RED BG
       case NOTE_F4:
         printBeat(0, true, true);
@@ -186,7 +195,6 @@ void handleNoteOn(byte channel, byte pitch, byte velocity)
         break;
 
       default:
-        clearBeat();
         break;
     }
   }
@@ -199,6 +207,11 @@ void handleNoteOff(byte channel, byte pitch, byte velocity)
     // Serial.println(pitch);
 
     switch(pitch) {
+
+      case NOTE_E4:
+        clearBeat();
+        break;
+
       case NOTE_F4:
         printBeat(0, false, false);
         break;
@@ -264,7 +277,6 @@ void handleNoteOff(byte channel, byte pitch, byte velocity)
         break;
 
       default:
-        clearBeat();
         break;
     }
 }
